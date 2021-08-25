@@ -1,4 +1,7 @@
 # Prerequisites
+# VIM SWAP FILE
+*.sw*
+
 *.d
 
 # Compiled Object files
