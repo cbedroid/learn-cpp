@@ -22,9 +22,9 @@ acquired on my journey to advance my C++ skills.
   * Encapsulation
   * Getter and Setter
   * Static - OOP Class
-  * Operator Overloading
+  * [Operator Overloading](https://github.com/cbedroid/learn-cpp/tree/master/operator_overloading.cpp)
   * Overloading Insertion and Extraction
   * Friend Functions
   
 * __Projects__
-  - [**Linux music player**](https://github.com/cbedroid/learn-cpp/tree/master/1-MusicPlayer) -      Play your favorite music from your linux console.
+  - [**Linux music player**](https://github.com/cbedroid/learn-cpp/tree/master/projects/1-MusicPlayer) -      Play your favorite music from your linux console.
