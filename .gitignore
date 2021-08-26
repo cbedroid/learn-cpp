@@ -1,8 +1,7 @@
 # Prerequisites
 #
 # C++ Bin File
- *bin/
- *bin/*
+ bin/*
 
 # VIM SWAP FILE
 *.sw*
