@@ -4,11 +4,15 @@
 
 #include <cctype>
 #include <algorithm>
+#include <filesystem>
 #include <locale>
 
+namespace fs = std::filesystem;
 using namespace std;
 
 const string WHITESPACE = " \n\r\t\f\v";
+
+
 string ltrim(const string &s)
 {
   size_t start = s.find_first_not_of(WHITESPACE);
@@ -39,6 +43,12 @@ bool isNumber(const string str)
     if (isdigit(c) == 0) return false;
   }
   return true;
+}
+
+bool dirExists(const string path){
+  fs::directory_entry dir(path);
+  if (dir.is_directory()) return true;
+    return false;
 }
 
 #endif

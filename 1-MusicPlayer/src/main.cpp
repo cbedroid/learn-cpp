@@ -1,5 +1,5 @@
 /*
- * @brief Simple console Audio player.
+ * @brief Simple console audio player.
  * @author Cornelius Brooks
  * @date Aug 23, 2021
  * @requires c++17
@@ -18,9 +18,8 @@ bool isNumber(const string str);
 #include "../include/musicplayer.h"
 
 
-void Run( string audio_engine, string audio_path){
+void Run( MusicPlayer musicplayer){
   // Initialized MusicPlayer class 
-  MusicPlayer musicplayer(audio_path,audio_engine);
   musicplayer.displayTracks();
 
   if (musicplayer.total_tracks == 0 ){
@@ -41,19 +40,22 @@ void Run( string audio_engine, string audio_path){
     getline(cin, user_input);
 
     user_input = trim(lowerCase(user_input));
-		if(user_input == ""){
-			continue;
-		}
-
-    else if (user_input == "quit" || user_input == "q"){ // Quit program
+    if(user_input == ""){ continue; }
+    else if (user_input == "quit" || user_input == "q"){
+      // Quit program
       cout
         << "Quitting..." 
         << endl;
       exit(0);
-    }else if (user_input == "l"){ // Display track
+    }
+
+    else if (user_input == "l"){ 
+      // Display track to screen
       musicplayer.displayTracks();
       continue;
-    }else if (isNumber(user_input) && stoi(user_input) > musicplayer.total_tracks ){
+    }
+
+    else if (isNumber(user_input) && stoi(user_input) > musicplayer.total_tracks ){
       cout << "Track out of range..." << endl;
       continue;
     }
@@ -71,21 +73,18 @@ void Run( string audio_engine, string audio_path){
 
 int main(int argc, char *argv[])
 {
+
   // Set Audio engine and Audio source path 
   string audio_engine, audio_path;
 
   /* Set Audio engine and Audio source path */ 
-  try{
-    audio_engine = argc > 0 ? argv[1] : MusicPlayer::DEFAULT_AUDIO_ENGINE;
-    audio_path = argc > 1  ? argv[2] : MusicPlayer::DEFAULT_AUDIO_PATH;
-  }catch(exception& e) {
-    audio_engine = MusicPlayer::DEFAULT_AUDIO_ENGINE;
-    audio_path = MusicPlayer::DEFAULT_AUDIO_PATH; 
-  }
-  cout << "Engine: " << audio_engine << " Source: " << audio_path << endl;
+  audio_engine = argc > 1 ? argv[1] : "";
+  audio_path = argc > 2  ? argv[2] : "";
+
 
   // Start Music Player 
-  Run(audio_engine,audio_path);
+  MusicPlayer musicplayer(audio_engine,audio_path);
+  Run(musicplayer);
 
   return 0;
 }

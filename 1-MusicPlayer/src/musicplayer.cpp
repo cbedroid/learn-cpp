@@ -8,17 +8,17 @@
 #include <filesystem>
 #include <vector>
 #include <algorithm>
+#include "../include/helper.h"
 #include "../include/musicplayer.h"
-#include <cstdlib>
 
 namespace fs = std::filesystem;
 using namespace std;
 
-std::string MusicPlayer::DEFAULT_AUDIO_ENGINE = "mplayer";
-std::string MusicPlayer::DEFAULT_AUDIO_PATH = getenv("HOME");
 
-void MusicPlayer::setTracks(std::string path){
+void MusicPlayer::setTracks(std::string path=""){
   /* Collect audio tracks */
+
+  path = path != "" ? path : this -> DEFAULT_AUDIO_PATH;
   std::vector <std::string> audio_exts = {".ogg",".mp3",".m4a",".wav",".wma"};
   for (const auto & entry : fs::recursive_directory_iterator(path)){
     fs::path file = entry.path();
@@ -46,27 +46,64 @@ void MusicPlayer::displayTracks(){
 }
 
 void MusicPlayer::playTrack(unsigned int track_index){
-  //TODO: Catch error when track out of range 
-  this-> current_track = tracklist[track_index-1];
-  std::string cmd = this-> player + " " + this->current_track;
+  const std::string DEVNULL_POSTFIX = " > /dev/null 2>&1";
+
+  // Set the current path and filename
+  fs::path track  = (tracklist[track_index-1]);
+  this-> current_track = track.filename().c_str();
+
+  // Play track
+  std::string cmd = this-> engine + " " + track.c_str() + DEVNULL_POSTFIX;
+  std::cout << "Now playing: " << current_track << std::endl;
   system(cmd.c_str());
 }
 
+void MusicPlayer::init(std::string engine="", std::string music_path="."){
+  this-> engine = engine != "" ? engine : DEFAULT_AUDIO_ENGINE;
+  if(music_path == "") music_path = ".";
+  this-> audio_path = music_path != "." ? music_path : DEFAULT_AUDIO_PATH;
+
+  // Check if audio path is a valid directory
+  if (dirExists(music_path)) this-> setTracks(music_path);
+  else{
+    std::cout 
+      << "Directory: " << fs::path(music_path).relative_path()
+      << " does not exists!"
+      << "\nSetting default path: "
+      << this-> DEFAULT_AUDIO_PATH
+      << std::endl;
+  }
+}
+
+void MusicPlayer::initMessage(){
+  std::cout << "MusicPlayer initialized" << std::endl;
+  std::cout 
+    << "Engine: "
+    << engine
+    << " Source: "
+    << fs::path(audio_path).relative_path()
+    << "\n" << std::endl;
+}
+
+
+void MusicPlayer::setAudioDefault(){
+  this-> engine = DEFAULT_AUDIO_ENGINE;
+  this-> audio_path = DEFAULT_AUDIO_PATH;
+}
+
 void MusicPlayer::stopTrack(){
-  std::string kill_cmd = std::string("pkill -9") + std::string(player);
+  std::string kill_cmd = std::string("pkill -9") + std::string(engine);
   system(kill_cmd.c_str());
 }
 
-MusicPlayer::MusicPlayer(std::string music_path, std::string player){
-  this-> setTracks(music_path);
-  this-> player = player != "" ? player : this-> DEFAULT_AUDIO_ENGINE;
+MusicPlayer::MusicPlayer(std::string engine, std::string music_path="."){
+  this-> init(engine,music_path);
+  initMessage();
 }
 
 MusicPlayer::MusicPlayer(){
   // Set default audio engine and audio source path
-  this-> player = this-> DEFAULT_AUDIO_ENGINE;
-  this-> setTracks(this-> DEFAULT_AUDIO_PATH);
-  std::cout << "Music player initialized" << std::endl;
-
+  this-> setAudioDefault();
+  initMessage();
 }
 #endif

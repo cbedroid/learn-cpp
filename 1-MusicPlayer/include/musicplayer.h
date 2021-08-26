@@ -5,24 +5,29 @@
 //#include <window.h>
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 class MusicPlayer{
   private:
-    std::vector <std::string> tracklist;
+    std::string DEFAULT_AUDIO_ENGINE = "mplayer";
+    std::string DEFAULT_AUDIO_PATH = std::getenv("HOME");
     std::string current_track;
-    std::string player;
-    void setDefault();
+    std::vector <std::string> tracklist;
+    void setAudioDefault();
     
   public:
-    static std::string DEFAULT_AUDIO_ENGINE;
-    static std::string DEFAULT_AUDIO_PATH;
-    unsigned int total_tracks; 
-    void setTracks(std::string path);
-    void playTrack(unsigned int track_index);
+    std::string engine; 
+    std::string audio_path;
+    int total_tracks; 
+    void initMessage();
     void stopTrack();
     void displayTracks();
+    void setTracks(std::string path);
+    void playTrack(unsigned int track_index);
+    void init(std::string engine, std::string audo_path);
+
     MusicPlayer();
-    MusicPlayer(std::string music_path, std::string player);
+    MusicPlayer(std::string engine, std::string audo_path);
 
 };
 #endif
