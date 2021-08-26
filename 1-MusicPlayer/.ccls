@@ -1,7 +1,7 @@
 clang++
 %h %cpp -std=c++17
-%c -std=c11
-%cpp -std=c++2a
-%h %hpp %cpp  --include=Global.h
+%h -x
+%h c++-header
+%hpp %cpp  --include=Global.h
 -Iinc
 -DMACRO
