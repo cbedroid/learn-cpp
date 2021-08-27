@@ -23,7 +23,7 @@ acquired on my journey to advance my C++ skills.
   * Getter and Setter
   * Static - OOP Class
   * [Operator Overloading](https://github.com/cbedroid/learn-cpp/tree/master/operator_overloading.cpp)
-  * Overloading Insertion and Extraction
+  * [Overloading Insertion and Extraction](https://github.com/cbedroid/learn-cpp/tree/master/overload_insertion_extraction.cpp)
   * Friend Functions
   
 * __Projects__
