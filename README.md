@@ -18,7 +18,7 @@ acquired on my journey to advance my C++ skills.
   * Reference
   * Pointer
   * Function Overloading
-  * OOP - Class and Struct
+  * [OOP - Class and Struct](https://github.com/cbedroid/learn-cpp/tree/master/class_struct.cpp)
   * Encapsulation
   * Getter and Setter
   * Static - OOP Class
