@@ -53,7 +53,6 @@ void MusicPlayer::playTrack(unsigned int track_index) {
 }
 
 void MusicPlayer::init(std::string engine = "", std::string music_path = "") {
-  std::cout << "Music path: " << music_path << std::endl;
   this->engine = engine != "" ? engine : DEFAULT_AUDIO_ENGINE;
   this->audio_path = music_path != "" ? music_path : DEFAULT_AUDIO_PATH;
 
@@ -71,7 +70,7 @@ void MusicPlayer::init(std::string engine = "", std::string music_path = "") {
 void MusicPlayer::initMessage() {
   std::cout << "MusicPlayer initialized" << std::endl;
   std::cout << "Engine: " << engine
-            << " Source: " << fs::path(audio_path).relative_path() << "\n"
+            << " Audio path: " << fs::path(audio_path).relative_path() << "\n"
             << std::endl;
 }
 

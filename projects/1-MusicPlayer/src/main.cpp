@@ -61,13 +61,47 @@ void Run(MusicPlayer musicplayer) {
   } while (musicplayer.total_tracks > 0);
 }
 
+void show_usage(string name) {
+  std::cerr << "Usage: " << name << " <option(s)> SOURCES "
+            << "Options:\n"
+            << "\t-h,--help\t\tShow this help message\n"
+            << "\t-e, --engine Audio\tSpecify the audio player to use.\n"
+            << "\t-p,--path Audio Path\tSpecify the audio path\n"
+            << std::endl;
+}
 int main(int argc, char* argv[]) {
   // Set Audio engine and Audio source path
   string audio_engine, audio_path;
 
-  /* Set Audio engine and Audio source path */
-  audio_engine = argc > 1 ? argv[1] : "";
-  audio_path = argc > 2 ? argv[2] : "";
+  if (argc < 3) {
+    show_usage(argv[0]);
+    return 1;
+  }
+
+  vector<string> sources;
+  for (int i = 1; i < argc; i++) {
+    string arg = argv[i];
+    if ((arg == "-h") || (arg == "--help")) {
+      show_usage(argv[0]);
+      return 0;
+    } else if ((arg == "-e") || (arg == "--engine") || (arg == "--player")) {
+      if (i < argc) {                // Make sure we aren't at the end of argv!
+        audio_engine = argv[i + 1];  // Increment 'i' so we don't get the
+                                     // argument as the next argv[i].
+      }
+    } else if ((arg == "-p") || (arg == "--path")) {
+      if (i + 1 < argc) {          // Make sure we aren't at the end of argv!
+        audio_path = argv[i + 1];  // Increment 'i' so we don't get the argument
+                                   // as the next argv[i].
+
+      } else {  // Uh-oh, there was no argument to the audio_path option.
+        cerr << "--path option requires one argument." << std::endl;
+        return 1;
+      }
+    } else {
+      sources.push_back(argv[i]);
+    }
+  }
 
   // Start Music Player
   MusicPlayer musicplayer(audio_engine, audio_path);
